@@ -16,7 +16,7 @@ from tornado.options import options as tornado_options
 
 parser = argparse.ArgumentParser()
 parser.add_argument("port", type=int, help="port to listen on")
-parser.add_argument("peers", type=int, nargs="+", help="peers' ports")
+# parser.add_argument("peers", type=int, nargs="+", help="peers' ports")
 opts = parser.parse_args()
 
 # This is just to configure Tornado logging.
