@@ -37,12 +37,12 @@ class MyServer(TCPServer):
             while True:
                 # Read 4 bytes.
                 header = yield stream.read_bytes(4)
-
+                print header[0]
                 # Convert from network order to int.
                 length = _UNPACK_INT(header)[0]
 
                 msg = yield stream.read_bytes(length)
-                logger.info('"%s   kkkkkkkooooooooooouuuuuuuuuurrrrrwwwwwqqqq"' % msg.decode())
+                logger.info('"%s"' % msg.decode())
 
                 del msg  # Dereference msg in case it's big.
 
