@@ -31,13 +31,19 @@ _PACK_INT = int_struct.pack
 
 class MyServer(TCPServer):
     @gen.coroutine
+    def server_reply(self, stream):
+        reply = "Merhaba. Tcp serverina hos geldiniz."
+        length2 = _PACK_INT(len(reply))
+        yield stream.write(length2 + reply)
+
+    @gen.coroutine
     def handle_stream(self, stream, address):
         logging.info("Connection from peer")
         try:
             while True:
                 # Read 4 bytes.
                 header = yield stream.read_bytes(4)
-                print header[0]
+
                 # Convert from network order to int.
                 length = _UNPACK_INT(header)[0]
 
@@ -45,6 +51,8 @@ class MyServer(TCPServer):
                 logger.info('"%s"' % msg.decode())
 
                 del msg  # Dereference msg in case it's big.
+
+                yield self.server_reply(stream)
 
         except StreamClosedError:
             logger.error("%s disconnected", address)
